@@ -14,33 +14,60 @@
 4. Установить и удалить deb-пакет с помощью dpkg.
 
 5. Выложить историю команд в терминале ubuntu.
-	
+
+
 Пункт 1:
+
 1  cat > HomeAnimal
+
 2  cat > PackAnimal
+
 3  cat HomeAnimal PackAnimal > Animals
+
 4  cat Animals
+
 5  mv Animals HumanFriends
+
 Пункт 2:
+
 6  mkdir Animal/
+
 8  mv HumanFriends Animal/
+
 9  cd Animal/
+
 10  ls
+
 Пункт 3:
+
 11  sudo update
+
 12  sudo apt update
+
 13  sudo apt install gnupg
+
 14  wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb
+
 15  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
+
 16  sudo dpkg -i htop_3.0.5-7_amd64.deb
+
 17  sudo apt-get update
+
 18  sudo apt-get install mysql-server
+
 19  mysql --version
+
 Пункт 4:
+
 20  wget http://ftp.ru.debian.org/debian/pool/main/h/htop/htop_3.0.5-7_amd64.deb
+
 21  sudo dpkg -i htop_3.0.5-7_amd64.deb
+
 23  htop --version
+
 24  sudo dpkg -r htop
+
 25  history
 
 6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние
