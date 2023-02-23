@@ -1,4 +1,5 @@
-Работа с репозиторием MySQL
+## Работа с репозиторием MySQL
+
 
 7. В подключенном MySQL репозитории создать базу данных “Друзья
 человека”.
@@ -7,15 +8,17 @@ mysql> CREATE DATABASE Human_Friends;
 Query OK, 1 row affected (0,03 sec)
 
 mysql> SHOW DATABASES;
-+--------------------+
+
+
 | Database           |
-+--------------------+
+|--------------------|
 | Human_Friends      |
 | information_schema |
 | mysql              |
 | performance_schema |
 | sys                |
-+--------------------+
+
+
 5 rows in set (0,05 sec)
 
 8. Создать таблицы с иерархией из диаграммы в БД.
@@ -47,23 +50,23 @@ Query OK, 0 rows affected (0,04 sec)
 
 mysql> SHOW TABLES;
 
-+-------------------------+
 | Tables_in_Human_Friends |
-+-------------------------+
+|-------------------------|
 | camel                   |
 | cat                     |
 | dog                     |
 | donkey                  |
 | hamstel                 |
 | horses                  |
-+-------------------------+
 
 6 rows in set (0,00 sec)
 
-9. Заполнить низкоуровневые таблицы именами(животных), командами
-которые они выполняют и датами рождения.
+
+9. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения.
+
 
 mysql> INSERT cat (
+
     -> name,
     -> birthday,
     -> skill)
@@ -98,16 +101,104 @@ Query OK, 2 rows affected (0,02 sec)
 Records: 2  Duplicates: 0  Warnings: 0
 
 mysql> SELECT * FROM dog;
-+-------+--------------+---------------------+-------------------+
+
+
 | iddog | name         | birthday            | skill             |
-+-------+--------------+---------------------+-------------------+
-|     1 | Äæåññè       | 2017-02-10 00:00:00 | äàòü ëàïó         |
-|     2 | Áàðáîñ       | 2019-04-10 00:00:00 | ãîëîñ             |
-|     3 | Ðèê          | 2021-08-10 00:00:00 | àïîðò             |
-+-------+--------------+---------------------+-------------------+
+|-------|--------------|---------------------|-------------------|
+|     1 | Джесси       | 2017-02-10 00:00:00 | дать лапу         |
+|     2 | Барбос       | 2019-04-10 00:00:00 | голос             |
+|     3 | Рик          | 2021-08-10 00:00:00 | апорт             |
 
-10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу.
 
-11. Создать новую таблицу “молодые животные” в которую попадут все животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью до месяца подсчитать возраст животных в новой таблице.
+10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой
+питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу.
 
-12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
+mysql> DELETE FROM camel;
+
+mysql> CREATE TABLE Pack_Animal (
+
+    -> idanimal INT PRIMARY KEY NOT NULL AUTO_INCREMENT)
+    -> SELECT
+    -> name,
+    -> birthday,
+    -> skill,
+    -> 'horses' as animal_type
+    -> FROM
+    -> horses;
+Query OK, 2 rows affected (0,03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Pack_Animal;
+
+
+| idanimal | name     | birthday            | skill        | animal_type |
+|----------|----------|---------------------|--------------|-------------|
+|        1 | Иа       | 2021-11-20 00:00:00 | идти         | horses      |
+|        2 | Бася     | 2016-07-18 00:00:00 | кушать       | horses      |
+
+2 rows in set (0,00 sec)
+
+mysql> INSERT INTO Pack_Animal (
+
+    -> name,
+    -> birthday,
+    -> skill,
+    -> animal_type)
+    -> SELECT
+    -> name,
+    -> birthday,
+    -> skill,
+    -> 'donkey' as animal_type
+    -> FROM
+    -> donkey;
+Query OK, 2 rows affected (0,00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Pack_Animal;
+
+| idanimal | name       | birthday            | skill        | animal_type |
+|----------|------------|---------------------|--------------|-------------|
+|        1 | Иа         | 2021-11-20 00:00:00 | идти         | horses      |
+|        2 | Бася       | 2016-07-18 00:00:00 | кушать       | horses      |
+|        4 | Чуп        | 2020-09-20 00:00:00 | кушать       | donkey      |
+|        5 | Вудди      | 2022-02-18 00:00:00 | спать        | donkey      |
+
+
+4 rows in set (0,00 sec)
+
+
+11. Создать новую таблицу “молодые животные” в которую попадут все
+животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
+до месяца подсчитать возраст животных в новой таблице.
+
+mysql> CREATE TABLE young_animals (id_young_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT)
+
+    -> SELECT name, birthday, skill, animal_type,
+    -> (TIMESTAMPDIFF(MONTH, birthday, CURDATE())) as age
+    -> FROM
+    -> (SELECT * FROM Pack_Animal UNION SELECT * FROM cat UNION SELECT * FROM dog UNION SELECT * FROM hamstel) s
+    -> WHERE birthday BETWEEN CURDATE() - INTERVAL 3 YEAR
+    -> AND CURDATE() - INTERVAL 1 YEAR;
+
+Query OK, 6 rows affected (0,04 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+
+mysql> SELECT * FROM young_animals;
+
+
+| id_young_animals | name         | birthday            | skill        | animal_type | age  |
+|------------------|--------------|---------------------|--------------|-------------|------|
+|                1 | Иа           | 2021-11-20 00:00:00 | идти         | horses      |   15 |
+|                2 | Чуп          | 2020-09-20 00:00:00 | кушать       | donkey      |   29 |
+|                3 | Вудди        | 2022-02-18 00:00:00 | спать        | donkey      |   12 |
+|                4 | Барсик       | 2020-08-10 00:00:00 | играть       | cat         |   30 |
+|                5 | Рик          | 2021-08-10 00:00:00 | апорт        | dog         |   18 |
+|                6 | Хома         | 2021-03-21 00:00:00 | кушать       | hamstel     |   23 |
+
+
+6 rows in set (0,00 sec)
+
+12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
+прошлую принадлежность к старым таблицам.
+
