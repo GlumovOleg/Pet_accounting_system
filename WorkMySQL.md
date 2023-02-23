@@ -1,4 +1,4 @@
-## Работа с репозиторием MySQL
+# Работа с репозиторием MySQL
 
 7. В подключенном MySQL репозитории создать базу данных “Друзья
 человека”.
@@ -21,6 +21,8 @@ mysql> SHOW DATABASES;
 5 rows in set (0,05 sec)
 
 8. Создать таблицы с иерархией из диаграммы в БД.
+
+## выполнение:
 
 mysql> CREATE TABLE IF NOT EXISTS dog ( iddog INT PRIMARY KEY NOT NULL AUTO_INCREMENT, name VARCHAR(45) NOT NULL, birthd
 ay DATETIME NOT NULL, skill VARCHAR(45) NULL);
@@ -61,6 +63,8 @@ mysql> SHOW TABLES;
 6 rows in set (0,00 sec)
 
 9. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения.
+
+## выполнение:
 
 mysql> INSERT cat (
 
@@ -109,6 +113,8 @@ mysql> SELECT * FROM dog;
 
 10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой
 питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу.
+
+## выполнение:
 
 mysql> DELETE FROM camel;
 
@@ -168,6 +174,8 @@ mysql> SELECT * FROM Pack_Animal;
 животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью
 до месяца подсчитать возраст животных в новой таблице.
 
+## выполнение:
+
 mysql> CREATE TABLE young_animals (id_young_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT)
 
     -> SELECT name, birthday, skill, animal_type,
@@ -198,3 +206,36 @@ mysql> SELECT * FROM young_animals;
 
 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
 прошлую принадлежность к старым таблицам.
+
+## выполнение:
+
+mysql> CREATE TABLE All_Animals (id_all_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT)
+
+    -> SELECT name, birthday, skill, animal_type
+    -> FROM
+    -> (SELECT * FROM Pack_Animal UNION
+    -> SELECT * FROM cat UNION
+    -> SELECT * FROM dog UNION
+    -> SELECT * FROM hamstel) s;
+
+Query OK, 12 rows affected (0,06 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM All_Animals;
+
+| id_all_animals | name         | birthday            | skill                       | animal_type |
+|----------------|--------------|---------------------|-----------------------------|-------------|
+|              1 | Иа           | 2021-11-20 00:00:00 | идти                        | horses      |
+|              2 | Бася         | 2016-07-18 00:00:00 | кушать                      | horses      |
+|              3 | Чуп          | 2020-09-20 00:00:00 | кушать                      | donkey      |
+|              4 | Вудди        | 2022-02-18 00:00:00 | спать                       | donkey      |
+|              5 | Персик       | 2018-05-17 00:00:00 | мурчать                     | cat         |
+|              6 | Барсик       | 2020-08-10 00:00:00 | играть                      | cat         |
+|              7 | Мурзик       | 2019-07-10 00:00:00 | спать                       | cat         |
+|              8 | Джесси       | 2017-02-10 00:00:00 | дать лапу                   | dog         |
+|              9 | Барбос       | 2019-04-10 00:00:00 | голос                       | dog         |
+|             10 | Рик          | 2021-08-10 00:00:00 | апорт                       | dog         |
+|             11 | Хома         | 2021-03-21 00:00:00 | кушать                      | hamstel     |
+|             12 | Рыжик        | 2022-04-10 00:00:00 | крутить колесо              | hamstel     |
+
+12 rows in set (0,00 sec)
