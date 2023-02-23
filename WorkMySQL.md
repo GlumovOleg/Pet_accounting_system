@@ -22,25 +22,31 @@ mysql> SHOW DATABASES;
 
 mysql> CREATE TABLE IF NOT EXISTS dog ( iddog INT PRIMARY KEY NOT NULL AUTO_INCREMENT, name VARCHAR(45) NOT NULL, birthd
 ay DATETIME NOT NULL, skill VARCHAR(45) NULL);
+
 Query OK, 0 rows affected (0,04 sec)
 
 mysql> CREATE TABLE IF NOT EXISTS hamstel ( idhamstel INT PRIMARY KEY NOT NULL AUTO_INCREMENT, name VARCHAR(45) NOT NULL
 , birthday DATETIME NOT NULL, skill VARCHAR(45) NULL);
+
 Query OK, 0 rows affected (0,03 sec)
 
 mysql> CREATE TABLE IF NOT EXISTS camel ( idcamel INT PRIMARY KEY NOT NULL AUTO_INCREMENT, name VARCHAR(45) NOT NULL, bi
 rthday DATETIME NOT NULL, skill VARCHAR(45) NULL);
+
 Query OK, 0 rows affected (0,03 sec)
 
 mysql> CREATE TABLE IF NOT EXISTS horses ( idchorses INT PRIMARY KEY NOT NULL AUTO_INCREMENT, name VARCHAR(45) NOT NULL,
  birthday DATETIME NOT NULL, skill VARCHAR(45) NULL);
+
 Query OK, 0 rows affected (0,04 sec)
 
 mysql> CREATE TABLE IF NOT EXISTS donkey ( iddonkey INT PRIMARY KEY NOT NULL AUTO_INCREMENT, name VARCHAR(45) NOT NULL,
 birthday DATETIME NOT NULL, skill VARCHAR(45) NULL);
+
 Query OK, 0 rows affected (0,04 sec)
 
 mysql> SHOW TABLES;
+
 +-------------------------+
 | Tables_in_Human_Friends |
 +-------------------------+
@@ -51,6 +57,7 @@ mysql> SHOW TABLES;
 | hamstel                 |
 | horses                  |
 +-------------------------+
+
 6 rows in set (0,00 sec)
 
 9. Заполнить низкоуровневые таблицы именами(животных), командами
@@ -64,7 +71,9 @@ mysql> INSERT cat (
     -> ('Персик', '2018-05-17', 'мурчать'),
     -> ('Барсик', '2020-08-10', 'играть'),
     -> ('Мурзик', '2019-07-10', 'спать');
+
 Query OK, 3 rows affected (0,03 sec)
+
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql> INSERT dog ( name, birthday, skill) VALUE ('Джесси', '2017-02-10', 'дать лапу'), ('Барбос', '2019-04-10', 'голос'
