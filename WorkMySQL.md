@@ -66,10 +66,7 @@ mysql> SHOW TABLES;
 
 9. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения.
 
-<<<<<<< HEAD
 ## выполнение:
-=======
->>>>>>> 2c4c522562f56819293b13fd7e8ac17921d6d69a
 
 mysql> INSERT cat (
 
@@ -212,7 +209,6 @@ mysql> SELECT * FROM young_animals;
 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на
 прошлую принадлежность к старым таблицам.
 
-<<<<<<< HEAD
 ## выполнение:
 
 mysql> CREATE TABLE All_Animals (id_all_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT)
@@ -245,5 +241,3 @@ mysql> SELECT * FROM All_Animals;
 |             12 | Рыжик        | 2022-04-10 00:00:00 | крутить колесо              | hamstel     |
 
 12 rows in set (0,00 sec)
-=======
->>>>>>> 2c4c522562f56819293b13fd7e8ac17921d6d69a
